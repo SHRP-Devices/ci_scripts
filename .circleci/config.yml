@@ -1,0 +1,50 @@
+version: 2.1
+jobs:
+  shrp_compile:
+   docker:
+      - image: ubuntu:18.04
+   steps:
+      - run:
+          name: Prepare building env
+          command: |
+           apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison build-essential curl flex g++-multilib gcc gcc-multilib clang git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python ccache libtinfo5 repo libstdc++6 wget libssl-dev rsync
+           mkdir -p ~/bin
+           curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+           chmod a+x ~/bin/repo
+           git config --global user.name "Giovix92"
+           git config --global user.email "ggualtierone@gmail.com"
+           git config --global color.ui false
+           repo init -u git://github.com/SKYHAWK-Recovery-Project/platform_manifest_twrp_omni.git -b 9.0 --depth 1
+      - run:
+          name: Remove useless files
+          command: |
+           cd .repo/manifests
+           sed -i '/darwin/d' default.xml
+           ( find . -type f -name '*.xml' | xargs sed -i '/darwin/d' ) || true
+           git commit -a -m "Bump" || true
+           cd ../
+           sed -i '/darwin/d' manifest.xml
+           cd ../
+      - run:
+          name: Repo sync
+          command: |
+           repo sync -c -q --force-sync --no-clone-bundle --optimized-fetch --prune --no-tags -j$(nproc --all)
+      - run:
+          name: Building time!
+          command: |
+           export ALLOW_MISSING_DEPENDENCIES=true
+           export TW_DEFAULT_LANGUAGE="en"
+           export LC_ALL="C"
+           export USE_CCACHE="1"
+           export TARGET_ARCH="arm64"
+           wget https://raw.githubusercontent.com/SHRP-Devices/ci_scripts/master/.circleci/build.sh
+           source build.sh
+workflows:
+  version: 2.1
+  cooking:
+    jobs:
+      - approve_build:
+          type: approval
+      - shrp_compile:
+          requires:
+            - approve_build
