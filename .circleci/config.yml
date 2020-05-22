@@ -14,6 +14,9 @@ jobs:
            git config --global user.name "Giovix92"
            git config --global user.email "ggualtierone@gmail.com"
            git config --global color.ui false
+           wget https://raw.githubusercontent.com/SHRP-Devices/ci_scripts/master/.circleci/build.sh
+           source build.sh
+           tgsay "<b>• Giovix92 CI - SHRP •</b>%0ARollin' up!"
            repo init -u git://github.com/SKYHAWK-Recovery-Project/platform_manifest_twrp_omni.git -b 9.0 --depth 1
       - run:
           name: Remove useless files
@@ -37,8 +40,29 @@ jobs:
            export LC_ALL="C"
            export USE_CCACHE="1"
            export TARGET_ARCH="arm64"
-           wget https://raw.githubusercontent.com/SHRP-Devices/ci_scripts/master/.circleci/build.sh
-           source build.sh
+           git clone https://github.com/SHRP-Devices/ci_scripts
+           mv ci_scripts/*.sh .
+           rm -rf ci_scripts/
+           if [ "$DEVICE" == "" ]; then
+             for bdevice in $(ls *.sh)
+             do
+               START=$(date +"%s")
+               export pdevice=$(basename $bdevice .sh)
+               rm -rf device/
+               mkdir device/
+               tgsay "<b>• Giovix92 CI - SHRP •</b>%0ABuild started on <code>Circle CI</code>, device <code>$pdevice</code>"
+               bash $bdevice || abort "<b>• Giovix92 CI - SHRP •</b>%0ABuild throwing errors! Last device: <code>$pdevice</code>"
+               END=$(date +"%s")
+               DIFF=$(($END - $START))
+               tgsendzip $pdevice
+               make clean
+               repo sync -c -q --force-sync --force-remove-dirty --no-clone-bundle --optimized-fetch --prune --no-tags -j$(nproc --all)
+             done
+           else
+             tgsay "<b>• Giovix92 CI - SHRP •</b>%0ABuild started on <code>Circle CI</code>, device <code>$DEVICE</code>%0ANote: that's a single build mode."
+             bash $DEVICE.sh || abort "<b>• Giovix92 CI - SHRP •</b>%0ABuild throwing errors! Last device: <code>$DEVICE</code>"
+             tgsendzip $DEVICE
+           fi
 workflows:
   version: 2.1
   cooking:
