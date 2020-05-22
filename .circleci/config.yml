@@ -39,7 +39,6 @@ jobs:
            export ALLOW_MISSING_DEPENDENCIES=true
            export TW_DEFAULT_LANGUAGE="en"
            export LC_ALL="C"
-           export USE_CCACHE="1"
            export TARGET_ARCH="arm64"
            git clone https://github.com/SHRP-Devices/ci_scripts
            mv ci_scripts/*.sh .
@@ -47,6 +46,7 @@ jobs:
            if [ "$DEVICE" == "" ]; then
              for bdevice in $(ls *.sh)
              do
+               export USE_CCACHE="1"
                source build.sh
                START=$(date +"%s")
                export pdevice=$(basename $bdevice .sh)
