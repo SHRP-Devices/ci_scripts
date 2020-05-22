@@ -24,7 +24,7 @@ function tgsendzip() {
       -F chat_id="$chat_id" \
       -F "disable_web_page_preview=true" \
       -F "parse_mode=html" \
-      -F caption="<b>• Giovix92 CI - SHRP •</b>%0ABuild completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds for <code>$1</code>!%0AHash: <code>$HASH_MD5</code>"
+      -F caption="<b>• Giovix92 CI - SHRP •</b>%0ABuild completed for <code>$1</code>!%0AHash: <code>$HASH_MD5</code>"
 }
 
 git clone https://github.com/SHRP-Devices/ci_scripts
