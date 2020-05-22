@@ -20,5 +20,5 @@ function tgsendzip() {
       -F chat_id="$chat_id" \
       -F "disable_web_page_preview=true" \
       -F "parse_mode=html" \
-      -F caption="<b>• Giovix92 CI - SHRP •</b>%0A<code>$pdevice</code> build finished! MD5: <code>$HASH_MD5</code>"
+      -F caption="<code>$pdevice</code> build finished! MD5: <code>$HASH_MD5</code>"
 }
