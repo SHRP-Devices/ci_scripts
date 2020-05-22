@@ -35,6 +35,7 @@ jobs:
       - run:
           name: Building time!
           command: |
+           source build.sh
            export ALLOW_MISSING_DEPENDENCIES=true
            export TW_DEFAULT_LANGUAGE="en"
            export LC_ALL="C"
@@ -46,6 +47,7 @@ jobs:
            if [ "$DEVICE" == "" ]; then
              for bdevice in $(ls *.sh)
              do
+               source build.sh
                START=$(date +"%s")
                export pdevice=$(basename $bdevice .sh)
                rm -rf device/
