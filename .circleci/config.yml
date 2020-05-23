@@ -48,21 +48,28 @@ jobs:
            git clone https://github.com/SHRP-Devices/ci_scripts
            mv ci_scripts/*.sh .
            rm -rf ci_scripts/
+           if [ "$lastdev" != "" ]; then
+             check=1
+             tgsay "• Giovix92 CI - SHRP •" "Lastdevice var set: $lastdev"
+           fi
            if [ "$DEVICE" == "" ]; then
              for bdevice in $(ls *.sh)
              do
-               export USE_CCACHE="1"
-               source build.sh
-               START=$(date +"%s")
                export pdevice=$(basename $bdevice .sh)
-               echo $pdevice > lastdevice
-               rm -rf device/
-               mkdir device/
-               tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice"
-               bash $bdevice
-               tgsendzip
-               make clean
-               repo sync -c -q --force-sync --force-remove-dirty --no-clone-bundle --optimized-fetch --prune --no-tags -j$(nproc --all)
+               if [ "$pdevice" != "$lastdev" ] && [ "$check" == "1" ]; then
+                 # Scroll
+               else
+                 export USE_CCACHE="1"
+                 source build.sh
+                 echo $pdevice > lastdevice
+                 rm -rf device/
+                 mkdir device/
+                 tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice"
+                 bash $bdevice
+                 tgsendzip
+                 make clean
+                 repo sync -c -q --force-sync --force-remove-dirty --no-clone-bundle --optimized-fetch --prune --no-tags -j$(nproc --all)
+               fi
              done
            else
              export pdevice=$DEVICE
