@@ -60,15 +60,16 @@ jobs:
                mkdir device/
                tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice"
                bash $bdevice
-               tgsendzip $pdevice
+               tgsendzip
                make clean
                repo sync -c -q --force-sync --force-remove-dirty --no-clone-bundle --optimized-fetch --prune --no-tags -j$(nproc --all)
              done
            else
              export pdevice=$DEVICE
+             echo $pdevice > lastdevice
              tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice" "Note: that's a single build mode."
              bash $pdevice.sh
-             tgsendzip $pdevice
+             tgsendzip
            fi
       - run:
           name: Fail.

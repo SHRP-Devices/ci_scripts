@@ -19,9 +19,9 @@ function abort() {
 }
 
 function tgsendzip() {
+  dev=$(cat lastdevice)
   ZIP=$(ls out/target/product/$1/SHRP*.zip)
-  HASH_MD5=$(md5sum $ZIP | awk '{ print $1 }')
-  tgsay -f "$ZIP" "$1 build finished! MD5: $HASH_MD5"
+  tgsay -f "$ZIP" "$dev build finished!"
 }
 
 # Run it by default
