@@ -57,6 +57,7 @@ jobs:
              do
                export pdevice=$(basename $bdevice .sh)
                if [ "$pdevice" = "$lastdev" ] || [ "$check" != "1" ]; then
+                 check=0
                  export USE_CCACHE="1"
                  source build.sh
                  echo $pdevice > lastdevice
