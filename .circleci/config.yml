@@ -56,9 +56,7 @@ jobs:
              for bdevice in $(ls *.sh)
              do
                export pdevice=$(basename $bdevice .sh)
-               if [ "$pdevice" != "$lastdev" ] && [ "$check" == "1" ]; then
-                 # Scroll
-               else
+               if [ "$pdevice" = "$lastdev" ] || [ "$check" != "1" ]; then
                  export USE_CCACHE="1"
                  source build.sh
                  echo $pdevice > lastdevice
