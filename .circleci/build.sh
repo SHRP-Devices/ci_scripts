@@ -24,6 +24,7 @@ function tgsendzip() {
   cd telegram/
   ZIP=$(ls SHRP*.zip)
   ./telegram -t $token -c $mchat_id -f "$ZIP" "$dev build finished!"
+  rm -rf "$ZIP"
   cd ..
 }
 
