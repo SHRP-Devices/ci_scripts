@@ -67,7 +67,7 @@ jobs:
                  bash $bdevice
                  tgsendzip
                  make clean
-                 rm -rf out/
+                 rm -rf out/ device/ kernel/
                  repo sync -c -q --force-sync --force-remove-dirty --no-clone-bundle --optimized-fetch --prune --no-tags -j$(nproc --all)
                fi
              done
