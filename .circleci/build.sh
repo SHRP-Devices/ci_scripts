@@ -20,8 +20,11 @@ function abort() {
 
 function tgsendzip() {
   dev=$(cat lastdevice)
-  ZIP=$(ls out/target/product/$dev/SHRP*.zip)
-  tgsay -f "$ZIP" "$dev build finished!"
+  mv out/target/product/$dev/SHRP*.zip telegram/
+  cd telegram/
+  ZIP=$(ls SHRP*.zip)
+  ./telegram -t $token -c $mchat_id -f "$ZIP" "$dev build finished!"
+  cd ..
 }
 
 # Run it by default
