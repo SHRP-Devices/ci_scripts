@@ -14,9 +14,12 @@ jobs:
            git config --global user.name "Giovix92"
            git config --global user.email "ggualtierone@gmail.com"
            git config --global color.ui false
-           wget https://raw.githubusercontent.com/SHRP-Devices/ci_scripts/master/.circleci/build.sh
+      - run:
+          name: Clone telegram.sh & repo init
+          command: |
+           git clone https://github.com/fabianonline/telegram.sh telegram/
            source build.sh
-           tgsay "<b>• Giovix92 CI - SHRP •</b>%0ARollin' up!"
+           tgsay "• Giovix92 CI - SHRP •" "Rollin' up!"
            repo init -u git://github.com/SKYHAWK-Recovery-Project/platform_manifest_twrp_omni.git -b 9.0 --depth 1
       - run:
           name: Remove useless files
@@ -36,6 +39,7 @@ jobs:
           name: Building time!
           command: |
            source build.sh
+           tginit
            export ALLOW_MISSING_DEPENDENCIES=true
            export TW_DEFAULT_LANGUAGE="en"
            export LC_ALL="C"
@@ -50,21 +54,28 @@ jobs:
                source build.sh
                START=$(date +"%s")
                export pdevice=$(basename $bdevice .sh)
+               echo $pdevice > lastdevice
                rm -rf device/
                mkdir device/
-               tgsay "<b>• Giovix92 CI - SHRP •</b>%0ABuild started on <code>Circle CI</code>, device <code>$pdevice</code>"
-               bash $bdevice || abort "<b>• Giovix92 CI - SHRP •</b>%0ABuild throwing errors! Last device: <code>$pdevice</code>"
-               END=$(date +"%s")
-               DIFF=$(($END - $START))
+               tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice"
+               bash $bdevice
                tgsendzip $pdevice
                make clean
                repo sync -c -q --force-sync --force-remove-dirty --no-clone-bundle --optimized-fetch --prune --no-tags -j$(nproc --all)
              done
            else
-             tgsay "<b>• Giovix92 CI - SHRP •</b>%0ABuild started on <code>Circle CI</code>, device <code>$DEVICE</code>%0ANote: that's a single build mode."
-             bash $DEVICE.sh || abort "<b>• Giovix92 CI - SHRP •</b>%0ABuild throwing errors! Last device: <code>$DEVICE</code>"
-             tgsendzip $DEVICE
+             export pdevice=$DEVICE
+             tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice" "Note: that's a single build mode."
+             bash $pdevice.sh
+             tgsendzip $pdevice
            fi
+      - run:
+          name: Fail.
+          command: |
+           source build.sh
+           export last_device=$(cat lastdevice)
+           tgsay "• Giovix92 CI - SHRP •" "Build throwing errors! Last device: $last_device"
+          when: on_fail
 workflows:
   version: 2.1
   cooking:

@@ -1,11 +1,16 @@
 #!/bin/bash
 # Functions
+function tginit() {
+  export telegramsh="telegram/telegram"
+}
+
 function tgsay() {
-    curl -s -X POST "https://api.telegram.org/bot$token/sendMessage" \
-        -d chat_id="$mchat_id" \
-        -d "disable_web_page_preview=true" \
-        -d "parse_mode=html" \
-        -d text="$1"
+  $telegramsh -t $token -c $mchat_id -H \
+      "$(
+          for POST in "${@}"; do
+              echo "${POST}"
+          done
+      )"
 }
 
 function abort() {
@@ -16,9 +21,8 @@ function abort() {
 function tgsendzip() {
   ZIP=$(ls out/target/product/$1/SHRP*.zip)
   HASH_MD5=$(md5sum $ZIP | awk '{ print $1 }')
-  curl -F document=@$ZIP "https://api.telegram.org/bot$token/sendDocument" \
-      -F chat_id="$chat_id" \
-      -F "disable_web_page_preview=true" \
-      -F "parse_mode=html" \
-      -F caption="<code>$pdevice</code> build finished! MD5: <code>$HASH_MD5</code>"
+  tgsay -f "$ZIP" "$1 build finished! MD5: $HASH_MD5"
 }
+
+# Run it by default
+tginit
