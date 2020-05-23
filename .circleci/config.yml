@@ -21,7 +21,7 @@ jobs:
            git clone https://github.com/fabianonline/telegram.sh telegram/
            source build.sh
            tgsay "• Giovix92 CI - SHRP •" "Rollin' up!"
-           repo init -u git://github.com/SKYHAWK-Recovery-Project/platform_manifest_twrp_omni.git -b 9.0 --depth 1
+           repo init -u git://github.com/SKYHAWK-Recovery-Project/platform_manifest_twrp_omni.git -b android-9.0 --depth 1
       - run:
           name: Remove useless files
           command: |
