@@ -44,7 +44,6 @@ jobs:
            export ALLOW_MISSING_DEPENDENCIES=true
            export TW_DEFAULT_LANGUAGE="en"
            export LC_ALL="C"
-           export TARGET_ARCH="arm64"
            git clone https://github.com/SHRP-Devices/ci_scripts
            mv ci_scripts/*.sh .
            rm -rf ci_scripts/
