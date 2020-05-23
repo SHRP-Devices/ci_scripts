@@ -20,7 +20,7 @@ function abort() {
 
 function tgsendzip() {
   dev=$(cat lastdevice)
-  ZIP=$(ls out/target/product/$1/SHRP*.zip)
+  ZIP=$(ls out/target/product/$dev/SHRP*.zip)
   tgsay -f "$ZIP" "$dev build finished!"
 }
 
