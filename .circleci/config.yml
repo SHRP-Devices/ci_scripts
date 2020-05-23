@@ -68,7 +68,7 @@ jobs:
                  tgsendzip
                  make clean
                  rm -rf out/ device/ kernel/ hardware/qcom/bootctrl/
-                 repo sync -c -q --force-sync --force-remove-dirty --no-clone-bundle --optimized-fetch --prune --no-tags -j$(nproc --all)
+                 repo forall -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD" > /dev/null 2>&1
                fi
              done
            else
