@@ -20,7 +20,7 @@ function abort() {
 
 function tgsendzip() {
   dev=$(cat lastdevice)
-  mv out/target/product/$dev/SHRP*.zip telegram/
+  mv out/target/product/*/SHRP*.zip telegram/
   cd telegram/
   ZIP=$(ls SHRP*.zip)
   ./telegram -t $token -c $mchat_id -f "$ZIP" "$dev build finished!"
