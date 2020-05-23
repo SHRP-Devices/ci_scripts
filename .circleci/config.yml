@@ -17,6 +17,7 @@ jobs:
       - run:
           name: Clone telegram.sh & repo init
           command: |
+           wget https://raw.githubusercontent.com/SHRP-Devices/ci_scripts/master/.circleci/build.sh
            git clone https://github.com/fabianonline/telegram.sh telegram/
            source build.sh
            tgsay "• Giovix92 CI - SHRP •" "Rollin' up!"
