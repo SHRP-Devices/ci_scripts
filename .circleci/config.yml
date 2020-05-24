@@ -67,7 +67,9 @@ jobs:
                  tgsendzip
                  make clean
                  rm -rf out/ device/ kernel/ hardware/qcom/bootctrl/
-                 repo forall -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD" > /dev/null 2>&1
+                 repo forall vendor/shrp -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
+                 repo forall bootable/recovery -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
+                 repo forall build/make -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
                fi
              done
            else
