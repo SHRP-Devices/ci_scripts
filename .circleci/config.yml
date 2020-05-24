@@ -21,7 +21,7 @@ jobs:
            git clone https://github.com/fabianonline/telegram.sh telegram/
            source build.sh
            tgsay "• Giovix92 CI - SHRP •" "Rollin' up!"
-           repo init -u git://github.com/SKYHAWK-Recovery-Project/platform_manifest_twrp_omni.git -b android-9.0 --depth 1
+           repo init -u git://github.com/SKYHAWK-Recovery-Project/platform_manifest_twrp_omni.git -b android-9.0
       - run:
           name: Remove useless files
           command: |
@@ -56,17 +56,19 @@ jobs:
              do
                export pdevice=$(basename $bdevice .sh)
                if [ "$pdevice" = "$lastdev" ] || [ "$check" != "1" ]; then
-                 check=0
+                 echo "[i] New loop"
+                 export check=0
                  export USE_CCACHE="1"
+                 echo "[i] Sourcing"
                  source build.sh
                  echo $pdevice > lastdevice
-                 rm -rf device/
-                 mkdir device/
                  tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice"
+                 echo "[i] Build start"
                  bash $bdevice
                  tgsendzip
+                 echo "[i] Cleaning up..."
                  make clean
-                 rm -rf out/ device/ kernel/ hardware/qcom/bootctrl/
+                 rm -rf device/ kernel/ hardware/qcom/bootctrl/
                  repo forall vendor/shrp -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
                  repo forall bootable/recovery -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
                  repo forall build/make -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
