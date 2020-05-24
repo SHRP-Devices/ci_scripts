@@ -20,11 +20,19 @@ function abort() {
 
 function tgsendzip() {
   dev=$(cat lastdevice)
-  mv out/target/product/*/SHRP*.zip telegram/
+  if [ "$dev" == "beyond2lte" ] || [ "$dev" == "beyondx"] || [ "$dev" == "beyond1lte" ] || [ "$dev" == "beyond0lte"]; then
+    mv out/target/product/*/recovery.img telegram/
+  else
+    mv out/target/product/*/SHRP*.zip telegram/
+  fi
   cd telegram/
-  ZIP=$(ls SHRP*.zip)
-  ./telegram -t $token -c $mchat_id -f "$ZIP" "$dev build finished!"
-  rm -rf "$ZIP"
+  if [ "$dev" == "beyond2lte" ] || [ "$dev" == "beyondx"] || [ "$dev" == "beyond1lte" ] || [ "$dev" == "beyond0lte"]; then
+    file=$(ls rec*.img)
+  else
+    file=$(ls SHRP*.zip)
+  fi
+  ./telegram -t $token -c $mchat_id -f "$file" "$dev build finished!"
+  rm -rf "$file"
   cd ..
 }
 
