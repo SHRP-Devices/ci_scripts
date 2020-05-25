@@ -17,9 +17,9 @@ jobs:
       - run:
           name: Clone telegram.sh & repo init
           command: |
-           wget https://raw.githubusercontent.com/SHRP-Devices/ci_scripts/master/.circleci/build.sh
+           wget https://raw.githubusercontent.com/SHRP-Devices/ci_scripts/master/.circleci/build
            git clone https://github.com/fabianonline/telegram.sh telegram/
-           source build.sh
+           source build
            tgsay "• Giovix92 CI - SHRP •" "Rollin' up!"
            repo init -u git://github.com/SKYHAWK-Recovery-Project/platform_manifest_twrp_omni.git -b android-9.0
       - run:
@@ -39,7 +39,7 @@ jobs:
       - run:
           name: Building time!
           command: |
-           source build.sh
+           source build
            tginit
            export ALLOW_MISSING_DEPENDENCIES=true
            export TW_DEFAULT_LANGUAGE="en"
@@ -60,7 +60,7 @@ jobs:
                  export check=0
                  export USE_CCACHE="1"
                  echo "[i] Sourcing"
-                 source build.sh
+                 source build
                  echo $pdevice > lastdevice
                  tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice"
                  echo "[i] Build start"
@@ -84,7 +84,7 @@ jobs:
       - run:
           name: Fail.
           command: |
-           source build.sh
+           source build
            export last_device=$(cat lastdevice)
            tgsay "• Giovix92 CI - SHRP •" "Build throwing errors! Last device: $last_device"
           when: on_fail
