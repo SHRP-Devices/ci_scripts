@@ -24,13 +24,15 @@ function tgsendzip() {
   if [ "$uploadimg" == "1" ]; then
     mv out/target/product/*/recovery.img telegram/
     cd telegram/
-    ./telegram -t $token -c $mchat_id -f "recovery.img" "$dev build finished!"
+    md5=$(md5sum "recovery.img" | awk '{ print $1 }')
+    ./telegram -t $token -c $mchat_id -f "recovery.img" "$dev build finished! MD5: $md5"
     rm -rf recovery.img
     export uploadimg=0
   else
     cd telegram/
     ZIP=$(ls SHRP*.zip)
-    ./telegram -t $token -c $mchat_id -f "$ZIP" "$dev build finished!"
+    md5=$(md5sum "$ZIP" | awk '{ print $1 }')
+    ./telegram -t $token -c $mchat_id -f "$ZIP" "$dev build finished! MD5: $md5"
     rm -rf "$ZIP"
     cd ..
   fi
