@@ -62,20 +62,26 @@ jobs:
                  export USE_CCACHE="1"
                  echo "[i] Sourcing"
                  source build
-                 echo $pdevice > lastdevice
-                 tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice"
-                 echo "[i] Build start"
-                 bash $bdevice
-                 tgsendzip
                  echo "[i] Cleaning up..."
                  make clean
                  rm -rf device/ kernel/ hardware/qcom/bootctrl/ .repo/local_manifests/ hardware/samsung/
                  repo forall vendor/shrp -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
                  repo forall bootable/recovery -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
                  repo forall build/make -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
+                 echo $pdevice > lastdevice
+                 tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice"
+                 echo "[i] Build start"
+                 bash $bdevice
+                 tgsendzip
                fi
              done
            else
+             echo "[i] Cleaning up..."
+             make clean
+             rm -rf device/ kernel/ hardware/qcom/bootctrl/ .repo/local_manifests/ hardware/samsung/
+             repo forall vendor/shrp -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
+             repo forall bootable/recovery -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
+             repo forall build/make -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
              export pdevice=$DEVICE
              echo $pdevice > lastdevice
              tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice" "Note: that's a single build mode."
