@@ -69,7 +69,7 @@ jobs:
                  tgsendzip
                  echo "[i] Cleaning up..."
                  make clean
-                 rm -rf device/ kernel/ hardware/qcom/bootctrl/
+                 rm -rf device/ kernel/ hardware/qcom/bootctrl/ .repo/local_manifests/ hardware/samsung/
                  repo forall vendor/shrp -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
                  repo forall bootable/recovery -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
                  repo forall build/make -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
