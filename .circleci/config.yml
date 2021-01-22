@@ -22,7 +22,7 @@ jobs:
            git clone https://github.com/fabianonline/telegram.sh telegram/
            source build
            tgsay "• Giovix92 CI - SHRP •" "Rollin' up!"
-           repo init -u git://github.com/SKYHAWK-Recovery-Project/platform_manifest_twrp_omni.git -b android-9.0 --depth=1
+           repo init -u git://github.com/SKYHAWK-Recovery-Project/platform_manifest_twrp_omni.git -b v3_9.0 --depth=1
       - run:
           name: Remove useless files
           command: |
@@ -65,9 +65,9 @@ jobs:
                  echo "[i] Cleaning up..."
                  make clean
                  rm -rf device/ kernel/ hardware/qcom/bootctrl/ .repo/local_manifests/ hardware/samsung/
-                 repo forall vendor/shrp -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
-                 repo forall bootable/recovery -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
-                 repo forall build/make -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
+                 repo forall vendor/shrp -c "git fetch SKYHAWK-Recovery-Project v3_9.0 && git reset --hard FETCH_HEAD"
+                 repo forall bootable/recovery -c "git fetch SKYHAWK-Recovery-Project v3_9.0 && git reset --hard FETCH_HEAD"
+                 repo forall build/make -c "git fetch SKYHAWK-Recovery-Project v3_9.0 && git reset --hard FETCH_HEAD"
                  echo $pdevice > lastdevice
                  tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice"
                  echo "[i] Build start"
@@ -79,9 +79,9 @@ jobs:
              echo "[i] Cleaning up..."
              make clean
              rm -rf device/ kernel/ hardware/qcom/bootctrl/ .repo/local_manifests/ hardware/samsung/
-             repo forall vendor/shrp -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
-             repo forall bootable/recovery -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
-             repo forall build/make -c "git fetch SKYHAWK-Recovery-Project android-9.0 && git reset --hard FETCH_HEAD"
+             repo forall vendor/shrp -c "git fetch SKYHAWK-Recovery-Project v3_9.0 && git reset --hard FETCH_HEAD"
+             repo forall bootable/recovery -c "git fetch SKYHAWK-Recovery-Project v3_9.0 && git reset --hard FETCH_HEAD"
+             repo forall build/make -c "git fetch SKYHAWK-Recovery-Project v3_9.0 && git reset --hard FETCH_HEAD"
              export pdevice=$DEVICE
              echo $pdevice > lastdevice
              tgsay "• Giovix92 CI - SHRP •" "Build started on Circle CI, device: $pdevice" "Note: that's a single build mode."
