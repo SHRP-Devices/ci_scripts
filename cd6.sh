@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fetch device tree
-git clone https://github.com/SHRP-Devices/android_device_TECNO_CD6 android_device_TECNO_CD6
+git clone https://github.com/SHRP-Devices/TECNO-CD6-SHRP TECNO-CD6-SHRP
 
 # Setup the build
 . build/envsetup.sh
