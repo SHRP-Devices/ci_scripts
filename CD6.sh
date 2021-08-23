@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fetch device tree
-git clone https://github.com/SHRP-Devices/TECNO-CD6-SHRP device/TECNO/TECNO_Camon_15_Air
+git clone https://github.com/SHRP-Devices/device_TECNO_CD6 device/TECNO/CD6
 
 # Setup the build
 . build/envsetup.sh
